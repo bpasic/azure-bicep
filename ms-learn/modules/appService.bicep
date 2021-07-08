@@ -1,5 +1,6 @@
 param location string
 param appServiceAppName string
+param appServicePlanInstanceCount int
 
 @allowed([
   'dev'
@@ -7,7 +8,8 @@ param appServiceAppName string
 ])
 param environmentType string
 
-var appServicePlanName = 'bptoyplan'
+param appServicePlanName string
+
 var appServicePlanSkuName = (environmentType == 'prod') ? 'P2_v3' : 'F1'
 var appServicePlanTierName = (environmentType == 'prod') ? 'PremiumV3' : 'Free'
 
@@ -17,7 +19,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2020-12-01' = {
   sku: {
     name: appServicePlanSkuName
     tier: appServicePlanTierName
-    capacity: 1
+    capacity: appServicePlanInstanceCount
   }
 }
 
